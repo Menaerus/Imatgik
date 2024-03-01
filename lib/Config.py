@@ -7,6 +7,12 @@ class SimpleConfig:
 
     self.parsed_config = json.loads(config_data)
 
-  def Get(self, key):
-    return self.parsed_config[key]
+  def Get(self, key, default=None):
+    if key in self.parsed_config.keys():
+      return self.parsed_config[key]
+    else:
+      if default == None:
+        raise KeyError
+      else:
+        return default
 
