@@ -3,7 +3,11 @@ import os
 
 class SimpleStorage:
   def __init__(self, config) -> None:
-    self.storageroot = config.Get("storageroot")
+    self.storageroot = config.Get("storageroot", "images")
+    if not os.path.exists(self.storageroot):
+      os.mkdir(self.storageroot)
+    
+
 
   def Store(self, username, file):
     originalfilename = file.filename
