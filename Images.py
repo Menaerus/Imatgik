@@ -8,7 +8,6 @@ sys.path.append('./lib')
 import os
 
 img = Blueprint('img', __name__)
-imageindex = 0
 
 @img.route("/images")
 @login_required
@@ -57,5 +56,5 @@ def upload():
 def uploadok():
   file = request.files['file']
   if file != '':
-    (a, b) = storage.Store(current_user.get_id(), file)
+    storage.Store(current_user.get_id(), file)
   return  redirect(url_for("img.images"))
