@@ -1,5 +1,5 @@
-import hashlib
 import sqlite3
+from Utils import *
 
 class SimpleAuthenticator:
   def __init__(self, config) -> None:
@@ -7,13 +7,12 @@ class SimpleAuthenticator:
     cur = self.con.cursor()
     if cur.execute("select name from sqlite_master").fetchone() is None:
       cur.execute("create table users(username, password)")
-      cur.execute("insert into users values ('david', '778d5bd89816d7d0c78070bf27cf2d8b')")
       self.con.commit()
 
   def Authenticate(self, user, password):
-    md5 = hashlib.md5((user+password).encode()).hexdigest()
+    md5 = Scramble(user, password)
     cur = self.con.cursor()
-    res = cur.execute("select * from users where username = '%s' and password = '%s'" % (user, str(md5)))
+    res = cur.execute("select * from users where username = '%s' and password = '%s'" % (user, md5))
     if res.fetchone() is None: return False
     return True
   
@@ -24,10 +23,15 @@ class SimpleAuthenticator:
 
   def Register(self, user, password):
     if self.Registered(user): return False
-    md5 = hashlib.md5((user+password).encode()).hexdigest()
+    md5 = Scramble(user, password)
     cur = self.con.cursor()
-    cur.execute("insert into users values ('%s','%s')" % (user, str(md5)))
+    cur.execute("insert into users values ('%s','%s')" % (user, md5))
     self.con.commit()
     return True
-
+  
+  def RegisteredWithUserid(self, userid):
+    cur = self.con.cursor()
+    res = cur.execute("select username from users where password = '%s'" % userid)
+    (username,) = res.fetchone()
+    return (username, username != None)
   

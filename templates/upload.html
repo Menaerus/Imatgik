@@ -1,0 +1,17 @@
+{% extends "images.html" %}
+
+{% block content %}
+<div class="column is-4 is-offset-4">
+  <h3 class="title">Upload Image</h3>
+  <div class="box">
+    <form action = "{{ url_for('img.uploadok') }}" method = "POST" enctype="multipart/form-data">   
+      <div class="field">
+        <div class="control">
+          <input class="input is-large" type="file" name="file" />
+        </div>
+      </div>
+      <button class="button is-block is-info is-large is-fullwidth">Upload</button>
+    </form> 
+  </div>
+</div> 
+{% endblock %}

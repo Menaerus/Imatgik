@@ -1,21 +1,15 @@
-from flask import Flask
-from flask import render_template
+from flask import Flask, render_template, Blueprint
 
-import sys
-sys.path.append('./lib')
+imatgik = Blueprint('imatgik', __name__)
 
-from Config import *
-from Storage import *
-from Authenticator import *
 
-config = SimpleConfig("config.json")
-storage = SimpleStorage(config)
-authenticator = SimpleAuthenticator(config)
 
-app = Flask(__name__)
+@imatgik.route('/')
+def index():
+    return render_template('welcome.html')
 
-@app.route("/")
-def home():
-    return render_template("welcome.html")
+@imatgik.route('/images')
+def images():
+    return render_template('images.html')
 
 

@@ -20,14 +20,12 @@ class TestAuthenticator(unittest.TestCase):
     config = SimpleConfig("authconfig.json")
     auth = SimpleAuthenticator(config)
 
-    self.assertTrue(auth.Registered("david"))
     self.assertTrue(auth.Register("pepe", "pepa"))
     self.assertFalse(auth.Register("pepe", "popa"))
     self.assertTrue(auth.Authenticate("pepe", "pepa"))
     self.assertFalse(auth.Authenticate("david", "pepa"))
 
     auth2 = SimpleAuthenticator(config)
-    self.assertTrue(auth2.Registered("david"))
     self.assertTrue(auth2.Registered("pepe"))
     self.assertFalse(auth2.Registered("lluisa"))
     self.assertTrue(auth2.Authenticate("pepe", "pepa"))
