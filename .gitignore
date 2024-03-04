@@ -4,3 +4,4 @@ tests/*.db
 tests/*.json
 images
 images/*
+*.db
