@@ -7,7 +7,6 @@ class User:
     self.is_authenticated = False
     self.is_active = False
     self.is_anonymous = False
-    self.current_image_index = 0
     self.images = []
 
   def ReCreate(self, userid) -> None:
@@ -15,7 +14,6 @@ class User:
     self.is_authenticated = True
     self.is_active = True
     self.is_anonymous = False
-    self.current_image_index = 0
     self.images = []
 
   def get_id(self):

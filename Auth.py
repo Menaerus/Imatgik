@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, request
+from flask import Blueprint, render_template, redirect, url_for, request, session
 from . import login_manager
 from . import config
 from . import storage
@@ -29,7 +29,7 @@ def login_post():
       user.is_active = True
       user.Fill(storage)
       login_user(user, remember=request.form.get('remember'))
-
+      session['index'] = 0
       return redirect(url_for('img.images'))
   else:
     return redirect(url_for('auth.register'))

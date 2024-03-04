@@ -8,8 +8,5 @@ imatgik = Blueprint('imatgik', __name__)
 def index():
     return render_template('welcome.html')
 
-@imatgik.route('/images')
-def images():
-    return render_template('images.html')
 
 
