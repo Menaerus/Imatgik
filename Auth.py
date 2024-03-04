@@ -47,8 +47,11 @@ def register_post():
   myauthenticator = SimpleAuthenticator(config)
   if myauthenticator.Register(username, password):
     return redirect(url_for('auth.login'))
-  flash('Username already registered!')
-  return redirect(url_for('auth.register'))
+  return redirect(url_for('auth.alreadyregistered'))
+
+@auth.route('/alreadyregistered')
+def alreadyregistered():
+  return render_template('alreadyregistered.html')
 
 @auth.route('/logout')
 def logout():

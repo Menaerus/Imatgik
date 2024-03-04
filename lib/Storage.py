@@ -6,8 +6,10 @@ class SimpleStorage:
     self.storageroot = config.Get("storageroot", "images")
     self.rootparent = config.Get("storagerootparent", "static")
     self.realstorageroot = os.path.join(self.rootparent, self.storageroot)
+    if not os.path.exists(self.rootparent):
+      os.mkdir(self.rootparent)
     if not os.path.exists(self.realstorageroot):
-      os.mkdir(self.storageroot)
+      os.mkdir(self.realstorageroot)
     
   def GenerateStoragename(self, userid, filename):
     userstoragename = os.path.join(self.realstorageroot, userid)
@@ -18,11 +20,14 @@ class SimpleStorage:
 
 
   def Store(self, userid, file):
-    originalfilename = file.filename
-    (_, simplefilename) = os.path.split(file.filename)
-    filename = self.GenerateStoragename(userid, simplefilename)
-    file.save(filename)
-    return (originalfilename, filename)
+    try:
+      originalfilename = file.filename
+      (_, simplefilename) = os.path.split(file.filename)
+      filename = self.GenerateStoragename(userid, simplefilename)
+      file.save(filename)
+      return (originalfilename, filename)
+    except Exception:
+      return (None, None)
   
   def Remove(self, userid, filename):
     fullname = os.path.join(self.realstorageroot, os.path.join(userid, filename))

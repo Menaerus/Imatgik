@@ -20,19 +20,19 @@ simpleconfig = SimpleConfig("testconfig.json")
 
 class TestStorage(unittest.TestCase):
   def test_ifstoragecreatestheimagesfolder(self):
-    if os.path.exists("images"): rmtree("images")
+    if os.path.exists("static/images"): rmtree("static/images")
     storage = SimpleStorage(simpleconfig)
-    self.assertTrue(os.path.exists("images"))
+    self.assertTrue(os.path.exists(os.path.join("static", "images")))
 
   def test_storagefoldernamegeneration(self):
-     if os.path.exists("images/david"): rmtree("images/david")
+     if os.path.exists("static/images/david"): rmtree("static/images/david")
      storage = SimpleStorage(simpleconfig)
-     self.assertEqual(os.path.join(os.path.join("images", "david"), "imatge.jpg"), storage.GenerateStoragename("david", "imatge.jpg"))
-     self.assertTrue(os.path.exists(os.path.join("images", "david")))
+     self.assertEqual(os.path.join(os.path.join(os.path.join("static", "images"), "david"), "imatge.jpg"), storage.GenerateStoragename("david", "imatge.jpg"))
+     self.assertTrue(os.path.exists(os.path.join(os.path.join("static", "images"), "david")))
 
 
   def test_upload(self):
-     if os.path.exists("images/david"): rmtree("images/david")
+     if os.path.exists("static/images/david"): rmtree("static/images/david")
      storage = SimpleStorage(simpleconfig)
      with open(os.path.join("testimages", "imatge1.png"), 'rb') as fp:
        file = FileStorage(fp)
@@ -45,8 +45,8 @@ class TestStorage(unittest.TestCase):
      self.assertEqual(files[0], "imatge1.png")
      files = storage.GetFilenames("pepe")
      self.assertEqual(len(files), 0)
-
-     storage.Remove(new)
+    
+     storage.Remove("david", new)
 
 if __name__ == '__main__':
     unittest.main()

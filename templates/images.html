@@ -20,19 +20,13 @@
                           <a  class="navbar-item">Hello {{ current_user.username }}!</a>
                         </div>
                         <div class="navbar-end">
-                            <a href="{{ url_for('img.prev') }}" class="navbar-item">
-                               Previous
+                            <a href="{{ url_for('img.remove') }}" class="navbar-item is-large">
+                              Remove Image
                             </a>
-                            <a href="{{ url_for('img.remove') }}" class="navbar-item">
-                              Remove
+                            <a href="{{ url_for('img.upload') }}" class="navbar-item is-large">
+                              Upload Image
                             </a>
-                            <a href="{{ url_for('img.upload') }}" class="navbar-item">
-                              Upload
-                            </a>
-                            <a href="{{ url_for('img.next') }}" class="navbar-item">
-                              Next
-                            </a>
-                            <a href="{{ url_for('auth.logout') }}" class="navbar-item">
+                            <a href="{{ url_for('auth.logout') }}" class="navbar-item is-large">
                               Logout
                           </a>
                         </div>
@@ -42,13 +36,35 @@
         </div>
 
         <div class="hero-body">
-            <div class="container has-text-centered">
+          <form action="{{ url_for('img.prev')}}">
+            <button class="button is-block is-info is-fullwidth">Previous Image</button>
+          </form>
+          <div class="container" align="center">
+            <div class="container">
               {% block content %}
-                <img src="{{ url_for('static', filename=image) }}" class="image"/>
+                <img width=50% height=30% src="{{ url_for('static', filename=image) }}" class="image"/>
               {% endblock %}
+
             </div>
+          </div>
+          <form action="{{ url_for('img.next')}}">
+            <button class="button is-block is-info  is-fullwidth">Next Image</button>
+          </form>
         </div>
-    </section>
+        <div class="hero-foot">
+          <nav class="navbar">
+            <div class="container">
+                <div id="navbarMenuHeroA" class="navbar-menu">
+                    <div class=""navbar-begin">
+                      <a class="navbar-item">
+                        <i>Imatgik</i>  &nbsp; &#169; by David Guijarro
+                      </a>
+                    </div>
+                </div>
+              </div>
+            </nav>
+        </div>
+      </section>
 </body>
 
 </html>

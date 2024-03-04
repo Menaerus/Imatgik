@@ -22,7 +22,7 @@ def images():
   if len(user.images) > 0:
     image = storage.CompleteName(user.get_id(), user.images[session['index'] % len(user.images)])
   else:
-    image = ''
+    image = 'No-Image-Placeholder.svg.png'
   return render_template("images.html", image=image)
 
 @img.route("/prev")
@@ -41,8 +41,9 @@ def next():
 @login_required
 def remove():
   user = current_user
-  filename = user.images[session['index'] % len(user.images)]
-  storage.Remove(user.get_id(), filename)
+  if len(user.images) > 0:
+    filename = user.images[session['index'] % len(user.images)]
+    storage.Remove(user.get_id(), filename)
   return redirect(url_for("img.images"))
 
 
@@ -55,5 +56,6 @@ def upload():
 @login_required
 def uploadok():
   file = request.files['file']
-  storage.Store(current_user.get_id(), file)
+  if file != '':
+    (a, b) = storage.Store(current_user.get_id(), file)
   return  redirect(url_for("img.images"))
