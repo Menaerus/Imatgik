@@ -55,6 +55,9 @@ and access `http:127.0.0.1:5000/` from your browser
 Run tests from tests/ folder.
 
 `cd tests`
+
 `python ./ConfigTests.py`
+
 `python ./AuthenticatorTests.py`
+
 `python ./StorageTests.py`
