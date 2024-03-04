@@ -32,6 +32,9 @@ class SimpleAuthenticator:
   def RegisteredWithUserid(self, userid):
     cur = self.con.cursor()
     res = cur.execute("select username from users where password = '%s'" % userid)
-    (username,) = res.fetchone()
+    username = None
+    if res != None: 
+      r = res.fetchone()
+      if r != None: (username,) = r
     return (username, username != None)
   

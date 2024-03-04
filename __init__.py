@@ -1,23 +1,24 @@
 from flask import Flask
 import sys
 sys.path.append('./lib')
+sys.path.append('.')
 
 
 from User import *
 from Config import *
-from Storage import *
-from Authenticator import *
+
+from Factory import *
 
 from flask_login import LoginManager
 login_manager = LoginManager()
 
 
 config = SimpleConfig("config.json")
-storage = SimpleStorage(config)
+storage = MakeStorage(config)
 
 @login_manager.user_loader
 def load_user(user_id):
-  authenticator = SimpleAuthenticator(config)
+  authenticator = MakeAuthenticator(config)
 
   return User.get(user_id, authenticator, storage)
 

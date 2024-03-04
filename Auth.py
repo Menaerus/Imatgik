@@ -7,8 +7,8 @@ from flask_login import login_user, logout_user
 import sys
 sys.path.append('./lib')
 
-from Authenticator import *
 from User import *
+from Factory import *
 
 auth = Blueprint('auth', __name__)
 img = Blueprint('img', __name__)
@@ -21,7 +21,7 @@ def login():
 def login_post():
   username = request.form.get('username')
   password = request.form.get('password')
-  myauthenticator = SimpleAuthenticator(config)
+  myauthenticator = MakeAuthenticator(config)
   if myauthenticator.Registered(username):
     if myauthenticator.Authenticate(username, password):
       user = User(username, password)
@@ -44,7 +44,7 @@ def register():
 def register_post():
   username = request.form.get('username')
   password = request.form.get('password')
-  myauthenticator = SimpleAuthenticator(config)
+  myauthenticator = MakeAuthenticator(config)
   if myauthenticator.Register(username, password):
     return redirect(url_for('auth.login'))
   return redirect(url_for('auth.alreadyregistered'))

@@ -1,6 +1,7 @@
 from Utils import *
 
 class User:
+  # implementation of the wrapper needed by flask-login
   def __init__(self, username, password) -> None:
     self.username = username
     self.userid = Scramble(username, password)
@@ -9,6 +10,7 @@ class User:
     self.is_anonymous = False
     self.images = []
 
+  # 
   def ReCreate(self, userid) -> None:
     self.userid = userid
     self.is_authenticated = True
