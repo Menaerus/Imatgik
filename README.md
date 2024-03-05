@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a really simple application for storing images for a set of users.
+This is a really simple web application for storing images for a set of users.
 
 The app is writen in Python and Flask.
 
@@ -20,7 +20,7 @@ The *server* side is organized around two basic elements:
 
 The Authorizer does login and registration (session maintenance is handled by flask-login).
 
-The Storage keeps the images somewhere.
+The Storage keeps the images and their titles somewhere.
 
 The overall design uses duck typing as an *abstraction* mechanism.
 
@@ -28,13 +28,16 @@ Both Authorizer and Storage are factorized, the app would accept any other imple
 
 The factorization is controlled via a simple configuration class (a wrapper over a json file).
 
-### Implementation details
+### Current Implementation 
 
 The SimpleAuthorizer uses a sqlite db where each action uses its own connection.
 
 The authorization itself is made storing a cryptographically secure hash scramble of the username and password as the user id. Therefore the password is never stored anywhere.
 
-The SimpleStorage uses the file system where the app is run to store all images. All images of a user are stored in a folder with the user id (provided by the Authorizer) writen as a hex number.
+The SimpleStorage uses the file system where the app is run to store all images. All images of a user are stored in a folder with the user id (provided by the Authorizer) writen as a hex number. The titles are kept in a sqlite database in each user folder.
+
+However, there is a disturbing implementation detail. Since the SimpleStorage uses the local file system, there is a violation of the isolation principle when we have to tell the Flask Blueprint that its static folder is where SimpleStorage stores the images.
+
 
 ## Installation
 
