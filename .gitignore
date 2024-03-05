@@ -5,3 +5,4 @@ tests/*.json
 images
 images/*
 *.db
+simplestorage/*

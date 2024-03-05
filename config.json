@@ -1,3 +1,5 @@
 {
-  "storageroot": "images"
+  "storagetype": "SimpleStorage",
+  "storageroot": "simplestorage",
+  "storagerootparent": "./"
 }

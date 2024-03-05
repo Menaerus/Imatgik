@@ -8,6 +8,7 @@ class SimpleAuthenticator:
     if cur.execute("select name from sqlite_master").fetchone() is None:
       cur.execute("create table users(username, password)")
       self.con.commit()
+    
 
   def Authenticate(self, user, password):
     md5 = Scramble(user, password)
