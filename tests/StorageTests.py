@@ -32,21 +32,57 @@ class TestStorage(unittest.TestCase):
 
 
   def test_upload(self):
-     if os.path.exists("static/images/david"): rmtree("static/images/david")
+     if os.path.exists("static/images/david"): 
+       rmtree("static/images/david")
      storage = SimpleStorage(simpleconfig)
      with open(os.path.join("testimages", "imatge1.png"), 'rb') as fp:
        file = FileStorage(fp)
-       (original, new) = storage.Store("david", file)
+       (original, new) = storage.Store("david", file, "My image")
 
      self.assertTrue(os.path.exists(new))
      self.assertTrue(cmp(original, new))
      files = storage.GetFilenames("david")
      self.assertEqual(len(files), 1)
      self.assertEqual(files[0], "imatge1.png")
+     title = storage.GetTitle("david", "imatge1.png")
+     self.assertEqual(title, "My image") 
      files = storage.GetFilenames("pepe")
      self.assertEqual(len(files), 0)
     
      storage.Remove("david", new)
 
+  def test_edittitle(self):
+    if os.path.exists("static/images/david"): 
+      rmtree("static/images/david")
+    storage = SimpleStorage(simpleconfig)
+    with open(os.path.join("testimages", "imatge1.png"), 'rb') as fp:
+      file = FileStorage(fp)
+      (original, new) = storage.Store("david", file, "My image")
+
+    title = storage.GetTitle("david", "imatge1.png")
+    self.assertEqual(title, "My image") 
+    storage.StoreTitle("david", "imatge1.png", "Really My image")
+    self.assertEqual(storage.GetTitle("david", "imatge1.png"), "Really My image")
+    
+  def test_remove(self):   
+    if os.path.exists("static/images/david"): 
+      rmtree("static/images/david")
+    storage = SimpleStorage(simpleconfig)
+    with open(os.path.join("testimages", "imatge1.png"), 'rb') as fp:
+      file = FileStorage(fp)
+      (original, new) = storage.Store("david", file, "My image")
+
+    files = storage.GetFilenames("david")
+    self.assertEqual(len(files), 1)
+    self.assertEqual(files[0], "imatge1.png")
+    title = storage.GetTitle("david", "imatge1.png")
+    self.assertEqual(title, "My image") 
+
+    storage.Remove("david", "imatge1.png")
+    files = storage.GetFilenames("david")
+    self.assertEqual(len(files), 0)
+    title = storage.GetTitle("david", "imatge1.png")
+    self.assertEqual(title, None) 
+    
 if __name__ == '__main__':
     unittest.main()

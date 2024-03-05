@@ -11,7 +11,6 @@ from User import *
 from Factory import *
 
 auth = Blueprint('auth', __name__)
-img = Blueprint('img', __name__)
 
 @auth.route('/login')
 def login():

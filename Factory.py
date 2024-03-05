@@ -5,7 +5,11 @@ from Storage import *
 from Authenticator import *
 
 def MakeStorage(config):
-  return SimpleStorage(config)
+  if config.Get("storagetype", "SimpleStorage") == "SimpleStorage":
+    return SimpleStorage(config)
+  return None
 
 def MakeAuthenticator(config):
-  return SimpleAuthenticator(config)
+  if config.Get("authenticatortype", "SimpleAuthenticator"):
+    return SimpleAuthenticator(config)
+  return None

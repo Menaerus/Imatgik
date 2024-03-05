@@ -7,7 +7,12 @@ import sys
 sys.path.append('./lib')
 import os
 
-img = Blueprint('img', __name__)
+from Config import *
+
+if SimpleConfig("config.json").Get("storagetype") == "SimpleStorage":
+  img = Blueprint('img', __name__, static_folder=SimpleConfig("config.json").Get("storageroot"))
+else:
+  img = Blueprint('img', __name__) 
 
 @img.route("/images")
 @login_required
@@ -20,9 +25,12 @@ def images():
     session['index'] = 0
   if len(user.images) > 0:
     image = storage.CompleteName(user.get_id(), user.images[session['index'] % len(user.images)])
+    (_, simplefilename) = os.path.split(image)
+    title = storage.GetTitle(user.get_id(), simplefilename)
   else:
     image = 'No-Image-Placeholder.svg.png'
-  return render_template("images.html", image=image)
+    title = 'No Image, hence no title'
+  return render_template("images.html", image=image, title=title)
 
 @img.route("/prev")
 @login_required
@@ -51,10 +59,34 @@ def remove():
 def upload():
   return render_template("upload.html")
 
+
 @img.route("/uploadok", methods=['POST'])
 @login_required
 def uploadok():
   file = request.files['file']
+  title = request.form.get("title")
   if file != '':
-    storage.Store(current_user.get_id(), file)
+    storage.Store(current_user.get_id(), file, title)
   return  redirect(url_for("img.images"))
+
+@img.route("/edittitle", methods=["GET"])
+@login_required
+def edittitle():
+  user = current_user
+  if len(user.images) > 0:
+    return render_template("edittitle.html")
+  return redirect(url_for("img.images"))
+
+@img.route("/edittitleok", methods=["POST"])
+@login_required
+def edittitleok():
+  title = request.form.get("title")
+  user = current_user
+  if len(user.images) > 0:
+    filename = user.images[session['index'] % len(user.images)]
+    (_, simplefilename) = os.path.split(filename)
+    storage.StoreTitle(user.get_id(), simplefilename, title)
+  return redirect(url_for("img.images"))
+
+
+  
