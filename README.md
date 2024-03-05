@@ -6,13 +6,13 @@ This is a really simple web application for storing images for a set of users.
 
 The app is writen in Python and Flask.
 
-I have chosen that pair because I have never used them before and I wanted the challenge of avoiding JavaScript at all.
+I have chosen that pair because I have never used them before and I wanted the challenge of avoiding JavaScript completely.
 
 ## Arquitecture
 
 The *client* side is rendered by a simple Flask app with 2 main views:
-- Authorization and Login View
-- Image Navigation and Editing View
+- Authorization and Login View (implemented with *auth* Flask Blueprint)
+- Image Navigation and Editing View (implemented with *img* Flask Blueprint)
 
 The *server* side is organized around two basic elements:
 - An Authorizer and 
@@ -30,14 +30,29 @@ The factorization is controlled via a simple configuration class (a wrapper over
 
 ### Current Implementation 
 
-The SimpleAuthorizer uses a sqlite db where each action uses its own connection.
+Basic *backend* implementation consists of two classes SimpleAuthorizer and SimpleStorage, that implement the methods required as Authorizer and Storage.
+
+SimpleAuthorizer uses a sqlite db where each method uses its own connection.
 
 The authorization itself is made storing a cryptographically secure hash scramble of the username and password as the user id. Therefore the password is never stored anywhere.
+The user id is a string, as required by Storage.
 
-The SimpleStorage uses the file system where the app is run to store all images. All images of a user are stored in a folder with the user id (provided by the Authorizer) writen as a hex number. The titles are kept in a sqlite database in each user folder.
+SimpleStorage uses the file system where the app is run to store all images. All images of a user are stored in a folder with the user id (provided by the Authorizer) writen as a hex number. The titles are kept in a sqlite database in each user folder.
 
 However, there is a disturbing implementation detail. Since the SimpleStorage uses the local file system, there is a violation of the isolation principle when we have to tell the Flask Blueprint that its static folder is where SimpleStorage stores the images.
 
+## Possible Continuations
+
+This is a list of things I have left behind due to time limitations.
+
+1. Authorization via Google
+1. Password reset, in current implementation, if you forget your password the images are lost (unless the administrator does something to recover them to your new account).
+1. Storage in a cloud service
+1. A better look and feel of the web interface (it show my poor knowledge of Flask, or its own limitations)
+
+## How far is it from production?
+
+A part from the previous item considerations the app cannot be put on production with Flask web server, at least it must be put behind an Nginx (or similar). 
 
 ## Installation
 
