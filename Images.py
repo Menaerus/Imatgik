@@ -72,6 +72,8 @@ def uploadok():
   if file != '':
     try:
       if validfilename(file.filename):
+        if storage.GetTitle(current_user.get_id(), file.filename) != None:
+          return render_template('notification.html', message='There is another image with same filename '+file.filename, next=url_for('img.upload'))
         storage.Store(current_user.get_id(), file, title)
       else:
         return render_template('notification.html', message='Invalid file type for an image', next=url_for("img.images"))
