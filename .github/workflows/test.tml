@@ -1,5 +1,5 @@
-name: test-blockchain
-run-name: ${{ github.actor}} is running Blockchain tests
+name: test-imatgik-lib
+run-name: ${{ github.actor}} is running Imatgik tests
 on: [push]
 jobs:
   run-tests:
