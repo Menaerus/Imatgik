@@ -74,7 +74,7 @@ class TestStorage(unittest.TestCase):
 
     files = storage.GetFilenames("david")
     self.assertEqual(len(files), 1)
-    self.assertEqual(files[0], "imatge1.png")
+    self.assertEqual(files[0], "Imatge1.png")
     title = storage.GetTitle("david", "Imatge1.png")
     self.assertEqual(title, "My image") 
 
