@@ -27,7 +27,7 @@ class TestStorage(unittest.TestCase):
   def test_storagefoldernamegeneration(self):
      if os.path.exists("static/images/david"): rmtree("static/images/david")
      storage = SimpleStorage(simpleconfig)
-     self.assertEqual(os.path.join(os.path.join(os.path.join("static", "images"), "david"), "imatge.jpg"), storage.GenerateStoragename("david", "imatge.jpg"))
+     self.assertEqual(os.path.join(os.path.join(os.path.join("static", "images"), "david"), "imatge.jpg"), storage._GenerateStoragename("david", "imatge.jpg"))
      self.assertTrue(os.path.exists(os.path.join(os.path.join("static", "images"), "david")))
 
 

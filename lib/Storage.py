@@ -12,17 +12,18 @@ class SimpleStorage:
     if not os.path.exists(self.realstorageroot):
       os.mkdir(self.realstorageroot)
     
-  def UserStorageName(self, userid):
+
+  def _UserStorageName(self, userid):
     return os.path.join(self.realstorageroot, userid)
   
-  def UserStorageTitlesDb(self, userstoragename):
+  def _UserStorageTitlesDb(self, userstoragename):
     return os.path.join(userstoragename, "titles.db")
   
-  def GenerateStoragename(self, userid, filename):
-    userstoragename = self.UserStorageName(userid)
+  def _GenerateStoragename(self, userid, filename):
+    userstoragename = self._UserStorageName(userid)
     if not os.path.exists(userstoragename):
       os.mkdir(userstoragename)
-      usertitlestorage = self.UserStorageTitlesDb(userstoragename)
+      usertitlestorage = self._UserStorageTitlesDb(userstoragename)
       con = sqlite3.connect(usertitlestorage)
       cur = con.cursor()
       if cur.execute("select name from sqlite_master").fetchone() is None:
@@ -32,9 +33,10 @@ class SimpleStorage:
     
     return os.path.join(userstoragename, filename)
 
+  # store the title for that filename
   def StoreTitle(self, userid, filename, title):
-    userstoragename = self.UserStorageName(userid)
-    userstoragetitlesdb = self.UserStorageTitlesDb(userstoragename)
+    userstoragename = self._UserStorageName(userid)
+    userstoragetitlesdb = self._UserStorageTitlesDb(userstoragename)
     con = sqlite3.connect(userstoragetitlesdb)
     cur = con.cursor()
     res = cur.execute("select title from titles where filename='%s'" % filename)
@@ -49,18 +51,19 @@ class SimpleStorage:
     con.commit()
     con.close()
 
-  def RemoveTitle(self, userid, filename):
-    userstoragename = self.UserStorageName(userid)
-    userstoragetitlesdb = self.UserStorageTitlesDb(userstoragename)
+  def _RemoveTitle(self, userid, filename):
+    userstoragename = self._UserStorageName(userid)
+    userstoragetitlesdb = self._UserStorageTitlesDb(userstoragename)
     con = sqlite3.connect(userstoragetitlesdb)
     cur = con.cursor()
     cur.execute("delete from titles where filename='%s'" % filename)
     con.commit()
     con.close()
 
+  # obtain title for that filename
   def GetTitle(self, userid, filename):
-    userstoragename = self.UserStorageName(userid)
-    userstoragetitlesdb = self.UserStorageTitlesDb(userstoragename)
+    userstoragename = self._UserStorageName(userid)
+    userstoragetitlesdb = self._UserStorageTitlesDb(userstoragename)
     title = None
     con = sqlite3.connect(userstoragetitlesdb)
     cur = con.cursor()
@@ -72,11 +75,12 @@ class SimpleStorage:
     con.close()
     return title
 
+  # store file with title
   def Store(self, userid, file, title):
     try:
       originalfilename = file.filename
       (_, simplefilename) = os.path.split(file.filename)
-      filename = self.GenerateStoragename(userid, simplefilename)
+      filename = self._GenerateStoragename(userid, simplefilename)
       file.save(filename)
       self.StoreTitle(userid, simplefilename, title)
       return (originalfilename, filename)
@@ -88,7 +92,7 @@ class SimpleStorage:
     if os.path.exists(fullname):
       os.remove(fullname)
       (_, simplefilename) = os.path.split(filename)
-      self.RemoveTitle(userid, simplefilename) 
+      self._RemoveTitle(userid, simplefilename) 
 
     
   def GetFilenames(self, userid):
