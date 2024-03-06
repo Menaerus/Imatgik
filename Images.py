@@ -3,9 +3,13 @@ from flask_login import login_required, current_user
 
 from . import config
 from . import storage
+
 import sys
 sys.path.append('./lib')
 import os
+
+def validfilename(filename):
+  return filename.lower().endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))
 
 from Config import *
 
@@ -66,7 +70,13 @@ def uploadok():
   file = request.files['file']
   title = request.form.get("title")
   if file != '':
-    storage.Store(current_user.get_id(), file, title)
+    try:
+      if validfilename(file.filename):
+        storage.Store(current_user.get_id(), file, title)
+      else:
+        return render_template('notification.html', message='Invalid file type for an image', next=url_for("img.images"))
+    except Exception:
+      return render_template('notification.html', message='File not found', next=url_for("img.images"))
   return  redirect(url_for("img.images"))
 
 @img.route("/edittitle", methods=["GET"])
