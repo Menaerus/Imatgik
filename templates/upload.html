@@ -1,7 +1,7 @@
 {% extends "clearbase.html" %}
 
 {% block content %}
-<div class="column is-4 is-offset-4">
+<div class="column">
   <h3 class="title">Upload Image</h3>
   <div class="box">
     <form action = "{{ url_for('img.uploadok') }}" method = "POST" enctype="multipart/form-data">   

@@ -7,57 +7,77 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Imatgik</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" />
+    <link href="static/css/fontawesome.css" rel="stylesheet">
+    <link href="static/css/solid.css" rel="stylesheet">
 </head>
 
 <body>
-    <section class="hero is-primary is-fullheight">
-
-        <div class="hero-head">
-            <nav class="navbar">
-                <div class="container">
-                    <div id="navbarMenuHeroA" class="navbar-menu">
-                        <div class=""navbar-begin">
-                          <a  class="navbar-item">Hello {{ current_user.username }}!</a>
-                        </div>
-                        <div class="navbar-end">
-                            <a href="{{ url_for('img.edittitle') }}" class="navbar-item is-large">
-                              Edit Title
-                            </a>
-                            <a href="{{ url_for('img.remove') }}" class="navbar-item is-large">
-                              Remove Image
-                            </a>
-                            <a href="{{ url_for('img.upload') }}" class="navbar-item is-large">
-                              Upload Image
-                            </a>
-                            <a href="{{ url_for('auth.logout') }}" class="navbar-item is-large">
-                              Logout
-                          </a>
-                        </div>
+    
+    <section class="hero is-primary">
+      <div class="hero-head">
+          <nav class="navbar">
+                  <div id="navbarmenu" class="navbar-menu is-active">
+                    <div class="navbar-begin">
+                      <a class="navbar-item is-large">Hello {{ current_user.username }}!</a>
                     </div>
-                </div>
-            </nav>
-        </div>
+                    <div class="navbar-end">
+                        <a href="{{ url_for('auth.logout') }}" class="navbar-item is-large">
+                          Logout
+                      </a>
+                    </div>
+                  </div>
+          </nav>
+      </div>
 
         <div class="hero-body">
-          <form action="{{ url_for('img.prev')}}">
-            <button class="button is-block is-info is-fullwidth">Previous</button>
-          </form>
-          <div class="container" align="center">
-            <div class="container">
-              {% block content %}
-                <img width=50% height=30% src="{{ image }}"  title="{{ title }}" class="image"/>
-              {% endblock %}
-
+          
+          <div class="columns is-mobile">
+            {% block content %}
+            <div class="column is-full">
+              <div class="columns is-mobile">
+                <div class="column">
+                  <div class="column">
+                    <a href="{{ url_for('img.prev')}}">
+                      <span class="icon-text"><span class="icon is-large"><i class="fas fa-angle-left fa-3x"></i></span></span>
+                    </a>
+                  </div>
+                </div>
+                  
+                <div class="column">
+                  <a href="{{ url_for('img.edittitle') }}" class="navbar-item is-large" alt="Edit Title">
+                    <span class="icon-text"><span class="icon is-large"><i class="fas fa-pen fa-2x"></i></span></span>
+                  </a>
+                </div>
+                <div class="column">
+                  <a href="{{ url_for('img.upload') }}" class="navbar-item is-large" alt="Upload Image">
+                    <span class="icon-text"><span class="icon is-large"><i class="fas fa-upload fa-2x"></i></span></span>
+                  </a>
+                </div>
+                <div class="column has-text-right">
+                  <a href="{{ url_for('img.remove') }}" class="navbar-item is-large" alt="Remove Image">
+                    <span class="icon-text"><span class="icon is-large"><i class="fas fa-trash fa-2x"></i></span></span>
+                  </a>
+                </div>
+                <div class="column has-text-right">
+                  <a href="{{ url_for('img.next')}}">
+                    <span class="icon-text"><span class="icon is-large"><i class="fas fa-angle-right fa-3x"></i></span></span>
+                  </a>
+                </div>
+              </div>     
+              <h2 class="title"><center>{{ title }}</center></h2> 
+              <p class="image is-128.64">
+                <img src="{{ image }}"  title="{{ title }}" class="image"></img>
+              </p>
+                         
+  
             </div>
+            {% endblock %}
           </div>
-          <form action="{{ url_for('img.next')}}">
-            <button  class="button is-block is-info  is-fullwidth">Next</button>
-          </form>
         </div>
         <div class="hero-foot">
           <nav class="navbar">
             <div class="container">
-                <div id="navbarMenuHeroA" class="navbar-menu">
+                <div id="navbarMenuHeroA" class="navbar-menu is-active">
                     <div class=""navbar-begin">
                       <a class="navbar-item">
                         <i>Imatgik</i>  &nbsp; &#169; by David Guijarro
