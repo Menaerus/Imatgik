@@ -4,7 +4,7 @@
 
 This is a really simple web application for storing images for a set of users.
 
-The app is writen in Python and Flask.
+The app is writen in Python with Flask and Burma as the css provider.
 
 I have chosen that pair because I have never used them before and I wanted the challenge of avoiding JavaScript completely.
 
