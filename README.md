@@ -41,14 +41,15 @@ SimpleStorage uses the file system where the app is run to store all images. All
 
 However, there is a disturbing implementation detail that violates isolation principles. Since the SimpleStorage uses the local file system, there is a violation of the isolation principle when we have to tell the Flask Blueprint that its static folder is where SimpleStorage stores the images.
 
-## Possible Continuations
+## Possible Continuations and TODOs
 
 This is a list of things I have left behind due to time limitations.
 
+1. Automated UI and navigation tests. Currently, automated tests only take into account the *lib* part of the app, which where the complicated programming takes place.
 1. Authorization via Google
 1. Password reset, in current implementation, if you forget your password the images are lost (unless the administrator does something to recover them to your new account).
 1. Storage in a cloud service
-1. A better look and feel of the web interface (it show my poor knowledge of Flask, or its own limitations)
+1. A better look and feel of the web interface (it shows my poor knowledge of Flask and/or Bulma, or their own limitations)
 
 ## How far is it from production?
 
