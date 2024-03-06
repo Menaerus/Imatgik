@@ -46,10 +46,10 @@ However, there is a disturbing implementation detail that violates isolation pri
 This is a list of things I have left behind due to time limitations.
 
 1. Automated UI and navigation tests. Currently, automated tests only take into account the *lib* part of the app, which where the complicated programming takes place.
-1. Authorization via Google
+1. Authorization via Google.
 1. Password reset, in current implementation, if you forget your password the images are lost (unless the administrator does something to recover them to your new account).
-1. Storage in a cloud service
-1. A better look and feel of the web interface (it shows my poor knowledge of Flask and/or Bulma, or their own limitations)
+1. Storage in a cloud service.
+1. A better look and feel of the web interface (it shows my poor knowledge of Flask and/or Bulma, or their own limitations).
 
 ## How far is it from production?
 

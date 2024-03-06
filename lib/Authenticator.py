@@ -10,6 +10,7 @@ class SimpleAuthenticator:
       self.con.commit()
     
 
+  # test if username/password pair have been previously registered
   def Authenticate(self, user, password):
     md5 = Scramble(user, password)
     cur = self.con.cursor()
@@ -17,11 +18,13 @@ class SimpleAuthenticator:
     if res.fetchone() is None: return False
     return True
   
+  # is user (userid) registered?
   def Registered(self, user):
     cur = self.con.cursor()
     res = cur.execute("select * from users where username = '%s'" % user)
     return res.fetchone( )!= None
 
+  # register a user-pass pair
   def Register(self, user, password):
     if self.Registered(user): return False
     md5 = Scramble(user, password)
@@ -30,7 +33,8 @@ class SimpleAuthenticator:
     self.con.commit()
     return True
   
-  def RegisteredWithUserid(self, userid):
+  # return username for registered user
+  def UsernameForRegisteredWithUserid(self, userid):
     cur = self.con.cursor()
     res = cur.execute("select username from users where password = '%s'" % userid)
     username = None
