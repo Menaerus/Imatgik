@@ -39,7 +39,7 @@ The user id is a string, as required by Storage.
 
 SimpleStorage uses the file system where the app is run to store all images. All images of a user are stored in a folder with the user id (provided by the Authorizer) writen as a hex number. The titles are kept in a sqlite database in each user folder.
 
-However, there is a disturbing implementation detail. Since the SimpleStorage uses the local file system, there is a violation of the isolation principle when we have to tell the Flask Blueprint that its static folder is where SimpleStorage stores the images.
+However, there is a disturbing implementation detail that violates isolation principles. Since the SimpleStorage uses the local file system, there is a violation of the isolation principle when we have to tell the Flask Blueprint that its static folder is where SimpleStorage stores the images.
 
 ## Possible Continuations
 
