@@ -4,7 +4,7 @@
 
 This is a really simple web application for storing images for a set of users.
 
-The app is writen in Python and Flask.
+The app is writen in Python with Flask and Burma as the css provider.
 
 I have chosen that pair because I have never used them before and I wanted the challenge of avoiding JavaScript completely.
 
@@ -39,16 +39,17 @@ The user id is a string, as required by Storage.
 
 SimpleStorage uses the file system where the app is run to store all images. All images of a user are stored in a folder with the user id (provided by the Authorizer) writen as a hex number. The titles are kept in a sqlite database in each user folder.
 
-However, there is a disturbing implementation detail. Since the SimpleStorage uses the local file system, there is a violation of the isolation principle when we have to tell the Flask Blueprint that its static folder is where SimpleStorage stores the images.
+However, there is a disturbing implementation detail that violates isolation principles. Since the SimpleStorage uses the local file system, there is a violation of the isolation principle when we have to tell the Flask Blueprint that its static folder is where SimpleStorage stores the images.
 
-## Possible Continuations
+## Possible Continuations and TODOs
 
 This is a list of things I have left behind due to time limitations.
 
+1. Automated UI and navigation tests. Currently, automated tests only take into account the *lib* part of the app, which where the complicated programming takes place.
 1. Authorization via Google
 1. Password reset, in current implementation, if you forget your password the images are lost (unless the administrator does something to recover them to your new account).
 1. Storage in a cloud service
-1. A better look and feel of the web interface (it show my poor knowledge of Flask, or its own limitations)
+1. A better look and feel of the web interface (it shows my poor knowledge of Flask and/or Bulma, or their own limitations)
 
 ## How far is it from production?
 
