@@ -46,11 +46,11 @@ def register_post():
   myauthenticator = MakeAuthenticator(config)
   if myauthenticator.Register(username, password):
     return redirect(url_for('auth.login'))
-  return redirect(url_for('auth.alreadyregistered'))
+  return render_template('notification.html', message='Already Registered!', next=url_for("auth.register"))
 
 @auth.route('/alreadyregistered')
 def alreadyregistered():
-  return render_template('alreadyregistered.html')
+  return render_template('notification.html', message='Already Registered!')
 
 @auth.route('/logout')
 def logout():

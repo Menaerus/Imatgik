@@ -28,7 +28,7 @@ def images():
     (_, simplefilename) = os.path.split(image)
     title = storage.GetTitle(user.get_id(), simplefilename)
   else:
-    image = 'No-Image-Placeholder.svg.png'
+    image = 'static/No-Image-Placeholder.svg.png'
     title = 'No Image, hence no title'
   return render_template("images.html", image=image, title=title)
 

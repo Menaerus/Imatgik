@@ -1,0 +1,11 @@
+{% extends "clearbase.html" %}
+
+
+  {% block content %}
+  <div class="notification is-warning is-large">
+    <form action="{{ next }}">
+      <button class="delete"></button>  
+    </form>
+    {{ message }}
+  </div>
+  {% endblock %}
