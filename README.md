@@ -62,14 +62,18 @@ A Python equiped system is required and then some Flask packages:
 
 `python -m pip install flask`
 
-`pip install flask-login`
+`python -m pip install flask-login`
 
-Then clone the repo.
+Then clone the repo or the other way around... You chose!
 
 ## Run
 From a bash terminal use:
 `FLASK_APP=. flask run`
-and access `http:127.0.0.1:5000/` from your browser
+and access `http://127.0.0.1:5000/` from your browser
+
+Or 
+`FLASK_APP=. flask run --host=0.0.0.0`
+and access `http://<your-ip>:5000`
 
 ## Tests
 Run tests from tests/ folder.
