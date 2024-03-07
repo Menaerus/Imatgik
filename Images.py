@@ -93,8 +93,9 @@ def uploadok():
         storage.Store(current_user.get_id(), file, title)
       else:
         return render_template('notification.html', message='Invalid file type for an image', next=url_for("img.images"))
-    except Exception:
-      return render_template('notification.html', message='File not found', next=url_for("img.images"))
+    except Exception as e:
+      print(e)
+      return render_template('notification.html', message='File not found:', next=url_for("img.images"))
   return  redirect(url_for("img.images"))
 
 @img.route("/edittitle", methods=["GET"])
