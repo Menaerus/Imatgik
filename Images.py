@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, request, flash, session, make_response
+from flask import Blueprint, render_template, redirect, url_for, request, flash, session, make_response, send_file
 from flask_login import login_required, current_user
 
 from . import config
@@ -20,6 +20,8 @@ img = Blueprint('img', __name__)
 @img.route("/storage/<path:filename>")
 @login_required
 def serveimage(filename):
+  if filename == 'No-Image-Placeholder.svg.png':
+    return send_file('static/No-Image-Placeholder.svg.png')
   user = current_user
   response = storage.Send_File(user.get_id(), filename)
   if response != None:
@@ -41,7 +43,7 @@ def images():
     (_, simplefilename) = os.path.split(image)
     title = storage.GetTitle(user.get_id(), simplefilename)
   else:
-    image = 'static/No-Image-Placeholder.svg.png'
+    image = 'No-Image-Placeholder.svg.png'
     title = 'No Image, hence no title'
   return render_template("images.html", image=image, title=title)
 
