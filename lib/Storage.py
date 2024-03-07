@@ -1,6 +1,7 @@
 import Config
 import os
 import sqlite3
+from flask import send_file
 
 class SimpleStorage:
   def __init__(self, config) -> None:
@@ -107,3 +108,11 @@ class SimpleStorage:
     userstoragename = self.storageroot+'/'+userid
     return userstoragename+'/'+filename
 
+
+  def Send_File(self, userid, filename):
+    userstoragename = os.path.join(self.realstorageroot, userid)
+    if os.path.exists(userstoragename):
+      fullname = os.path.join(self.realstorageroot, os.path.join(userid, filename))
+      if os.path.exists(fullname):
+        return send_file(fullname)
+    return None

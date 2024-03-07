@@ -1,8 +1,9 @@
-from flask import Blueprint, render_template, redirect, url_for, request, flash, session
+from flask import Blueprint, render_template, redirect, url_for, request, flash, session, make_response
 from flask_login import login_required, current_user
 
 from . import config
 from . import storage
+
 
 import sys
 sys.path.append('./lib')
@@ -13,10 +14,18 @@ def validfilename(filename):
 
 from Config import *
 
-if SimpleConfig("config.json").Get("storagetype") == "SimpleStorage":
-  img = Blueprint('img', __name__, static_folder=SimpleConfig("config.json").Get("storageroot"))
-else:
-  img = Blueprint('img', __name__) 
+
+img = Blueprint('img', __name__) 
+
+@img.route("/storage/<path:filename>")
+@login_required
+def serveimage(filename):
+  user = current_user
+  response = storage.Send_File(user.get_id(), filename)
+  if response != None:
+    return response
+  else:
+    return render_template('notification.html', message='File not found', next=url_for("img.images"))
 
 @img.route("/images")
 @login_required
@@ -28,7 +37,7 @@ def images():
   except KeyError:
     session['index'] = 0
   if len(user.images) > 0:
-    image = storage.CompleteName(user.get_id(), user.images[session['index'] % len(user.images)])
+    image = user.images[session['index'] % len(user.images)]
     (_, simplefilename) = os.path.split(image)
     title = storage.GetTitle(user.get_id(), simplefilename)
   else:

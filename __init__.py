@@ -9,7 +9,7 @@ from Config import *
 
 from Factory import *
 
-from flask_login import LoginManager
+from flask_login import LoginManager, login_required
 login_manager = LoginManager()
 
 
@@ -39,5 +39,6 @@ def create_app():
   from .Images import img as images_blueprint
   app.register_blueprint(images_blueprint)
 
+  
   login_manager.init_app(app)
   return app
