@@ -27,7 +27,7 @@ def serveimage(filename):
   if response != None:
     return response
   else:
-    return render_template('notification.html', message='File not found', next=url_for("img.images"))
+    return render_template('notification.html', message='File not found (in our storage)', next=url_for("img.images"))
 
 @img.route("/images")
 @login_required
