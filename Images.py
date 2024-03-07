@@ -51,6 +51,11 @@ def next():
 @img.route("/remove")
 @login_required
 def remove():
+  return render_template("confirmremove.html")
+
+@img.route("/removeok", methods=["POST"])
+@login_required
+def removeok():
   user = current_user
   if len(user.images) > 0:
     filename = user.images[session['index'] % len(user.images)]
@@ -86,7 +91,10 @@ def uploadok():
 def edittitle():
   user = current_user
   if len(user.images) > 0:
-    return render_template("edittitle.html")
+    image = storage.CompleteName(user.get_id(), user.images[session['index'] % len(user.images)])
+    (_, simplefilename) = os.path.split(image)
+    title = storage.GetTitle(user.get_id(), simplefilename)
+    return render_template("edittitle.html", title=title)
   return redirect(url_for("img.images"))
 
 @img.route("/edittitleok", methods=["POST"])

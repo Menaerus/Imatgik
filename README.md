@@ -51,6 +51,11 @@ This is a list of things I have left behind due to time limitations.
 1. Storage in a cloud service.
 1. A better look and feel of the web interface (it shows my poor knowledge of Flask and/or Bulma, or their own limitations).
 1. Improve image loading using a buffered approach, have a window of images in the browser ready to show and update the window in the background when using the arrows.
+1. Progress bar in uploading an image.
+
+## Known issues
+
+1. In some mobiles, uploading an image produces "File not found". No idea why yet.
 
 ## How far is it from production?
 
