@@ -35,30 +35,27 @@
             {% block content %}
             <div class="column is-full">
               <div class="columns is-mobile">
-                <div class="column">
-                  <div class="column">
-                    <a href="{{ url_for('img.prev')}}">
-                      <span class="icon-text"><span class="icon is-large"><i class="fas fa-angle-left fa-3x"></i></span></span>
-                    </a>
-                  </div>
+                <div class="column is-mobile">
+                  <a href="{{ url_for('img.prev')}}" class="is-large">
+                    <span class="icon-text"><span class="icon is-large"><i class="fas fa-angle-left fa-3x"></i></span></span>
+                  </a>
                 </div>
-                  
-                <div class="column">
-                  <a href="{{ url_for('img.edittitle') }}" class="navbar-item is-large" alt="Edit Title">
+                <div class="column  is-mobile">
+                  <a href="{{ url_for('img.edittitle') }}" class="is-large" alt="Edit Title">
                     <span class="icon-text"><span class="icon is-large"><i class="fas fa-pen fa-2x"></i></span></span>
                   </a>
                 </div>
-                <div class="column">
-                  <a href="{{ url_for('img.upload') }}" class="navbar-item is-large" alt="Upload Image">
+                <div class="column is-mobile">
+                  <a href="{{ url_for('img.upload') }}" class="is-large" alt="Upload Image">
                     <span class="icon-text"><span class="icon is-large"><i class="fas fa-upload fa-2x"></i></span></span>
                   </a>
                 </div>
-                <div class="column has-text-right">
-                  <a href="{{ url_for('img.remove') }}" class="navbar-item is-large" alt="Remove Image">
+                <div class="column  is-mobile">
+                  <a href="{{ url_for('img.remove') }}" class="is-large" alt="Remove Image">
                     <span class="icon-text"><span class="icon is-large"><i class="fas fa-trash fa-2x"></i></span></span>
                   </a>
                 </div>
-                <div class="column has-text-right">
+                <div class="column has-text-left is-mobile">
                   <a href="{{ url_for('img.next')}}">
                     <span class="icon-text"><span class="icon is-large"><i class="fas fa-angle-right fa-3x"></i></span></span>
                   </a>
