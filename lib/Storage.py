@@ -86,6 +86,7 @@ class SimpleStorage:
       self.StoreTitle(userid, simplefilename, title)
       return (originalfilename, filename)
     except Exception as e:
+      print(e)
       return (None, None)
   
   def Remove(self, userid, filename):
