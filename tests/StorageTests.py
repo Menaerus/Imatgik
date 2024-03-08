@@ -18,65 +18,71 @@ simplejson = """
 InitConfigFile("testconfig.json", simplejson)
 simpleconfig = SimpleConfig("testconfig.json")
 
+
+def upload(userid, filename, title):
+  if os.path.exists(os.path.join("static","images", userid)): 
+      rmtree(os.path.join("static","images", userid))
+  storage = SimpleStorage(simpleconfig)
+  with open(os.path.join("testimages", filename), 'rb') as fp:
+    file = FileStorage(fp)      
+    (original, new) = storage.Store(userid, file, title)
+  return (storage, original, new)
+
+
 class TestStorage(unittest.TestCase):
   def test_ifstoragecreatestheimagesfolder(self):
-    if os.path.exists("static/images"): rmtree("static/images")
+    if os.path.exists(os.path.join("static", "images")): rmtree(os.path.join("static", "images"))
     storage = SimpleStorage(simpleconfig)
     self.assertTrue(os.path.exists(os.path.join("static", "images")))
 
   def test_storagefoldernamegeneration(self):
-     if os.path.exists("static/images/david"): rmtree("static/images/david")
+     if os.path.exists(os.path.join("static", "images", "david")): rmtree(os.path.join("static", "images", "david"))
      storage = SimpleStorage(simpleconfig)
-     self.assertEqual(os.path.join(os.path.join(os.path.join("static", "images"), "david"), "Imatge.jpg"), storage._GenerateStoragename("david", "Imatge.jpg"))
-     self.assertTrue(os.path.exists(os.path.join(os.path.join("static", "images"), "david")))
+     self.assertEqual(os.path.join("static", "images", "david", "Imatge.jpg"), storage._GenerateStoragename("david", "Imatge.jpg"))
+     self.assertTrue(os.path.exists(os.path.join("static", "images", "david")))
 
+  
+  def do_test_upload(self, userid, filename, title):
+    (storage, original, new) = upload(userid, filename, title)
+
+    self.assertTrue(os.path.exists(new))
+    self.assertTrue(cmp(original, new))
+    files = storage.GetFilenames(userid)
+    self.assertEqual(len(files), 1)
+    self.assertEqual(files[0], filename)
+    thetitle = storage.GetTitle(userid, filename)
+    self.assertEqual(thetitle, title) 
+    
+  
+    storage.Remove(userid, filename)
+    self.assertFalse(os.path.exists(os.path.join("static", "images", userid, filename)))
+    self.assertEqual(storage.GetTitle(userid, filename), None)
 
   def test_upload(self):
-     if os.path.exists("static/images/david"): 
-       rmtree("static/images/david")
-     storage = SimpleStorage(simpleconfig)
-     with open(os.path.join("testimages", "Imatge1.png"), 'rb') as fp:
-       file = FileStorage(fp)
-       (original, new) = storage.Store("david", file, "My image")
-
-     self.assertTrue(os.path.exists(new))
-     self.assertTrue(cmp(original, new))
-     files = storage.GetFilenames("david")
-     self.assertEqual(len(files), 1)
-     self.assertEqual(files[0], "Imatge1.png")
-     title = storage.GetTitle("david", "Imatge1.png")
-     self.assertEqual(title, "My image") 
-     files = storage.GetFilenames("pepe")
-     self.assertEqual(len(files), 0)
+    self.do_test_upload("david", "Imatge1.png", "My title")
+    self.do_test_upload("4a1450f72fc01ffc5ef38d337f71eef9", "Imatge1.png", "Her title")
     
-     storage.Remove("david", new)
+  def test_nofolderforunknownuser(self):  
+    storage = SimpleStorage(simpleconfig)
+    files = storage.GetFilenames("pepe")
+    self.assertEqual(len(files), 0)
 
   def test_edittitle(self):
-    if os.path.exists("static/images/david"): 
-      rmtree("static/images/david")
-    storage = SimpleStorage(simpleconfig)
-    with open(os.path.join("testimages", "Imatge1.png"), 'rb') as fp:
-      file = FileStorage(fp)
-      (original, new) = storage.Store("david", file, "My image")
+    (storage, _, _) = upload("david", "Imatge1.png", "My image")
 
     title = storage.GetTitle("david", "Imatge1.png")
     self.assertEqual(title, "My image") 
     storage.StoreTitle("david", "Imatge1.png", "Really My image")
     self.assertEqual(storage.GetTitle("david", "Imatge1.png"), "Really My image")
     
-  def test_remove(self):   
-    if os.path.exists("static/images/david"): 
-      rmtree("static/images/david")
-    storage = SimpleStorage(simpleconfig)
-    with open(os.path.join("testimages", "Imatge1.png"), 'rb') as fp:
-      file = FileStorage(fp)
-      (original, new) = storage.Store("david", file, "My image")
+  def test_remove(self):  
+    (storage, _, _) = upload("david", "Imatge1.png", "My title") 
 
     files = storage.GetFilenames("david")
     self.assertEqual(len(files), 1)
     self.assertEqual(files[0], "Imatge1.png")
     title = storage.GetTitle("david", "Imatge1.png")
-    self.assertEqual(title, "My image") 
+    self.assertEqual(title, "My title") 
 
     storage.Remove("david", "Imatge1.png")
     files = storage.GetFilenames("david")

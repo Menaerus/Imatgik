@@ -24,6 +24,8 @@ class SimpleStorage:
     userstoragename = self._UserStorageName(userid)
     if not os.path.exists(userstoragename):
       os.mkdir(userstoragename)
+      if not os.path.exists(userstoragename):
+        raise Exception("Could not create storage folder "+ userstoragename)
       usertitlestorage = self._UserStorageTitlesDb(userstoragename)
       con = sqlite3.connect(usertitlestorage)
       cur = con.cursor()
@@ -90,7 +92,7 @@ class SimpleStorage:
       return (None, None)
   
   def Remove(self, userid, filename):
-    fullname = os.path.join(self.realstorageroot, os.path.join(userid, filename))
+    fullname = os.path.join(self.realstorageroot, userid, filename)
     if os.path.exists(fullname):
       os.remove(fullname)
       (_, simplefilename) = os.path.split(filename)
@@ -113,7 +115,7 @@ class SimpleStorage:
   def Send_File(self, userid, filename):
     userstoragename = os.path.join(self.realstorageroot, userid)
     if os.path.exists(userstoragename):
-      fullname = os.path.join(self.realstorageroot, os.path.join(userid, filename))
+      fullname = os.path.join(self.realstorageroot, userid, filename)
       if os.path.exists(fullname):
         return send_file(fullname)
     return None
