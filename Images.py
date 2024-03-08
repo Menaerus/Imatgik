@@ -94,8 +94,7 @@ def uploadok():
       else:
         return render_template('notification.html', message='Invalid file type for an image', next=url_for("img.images"))
     except Exception as e:
-      print(e)
-      return render_template('notification.html', message='File not found: (storage) '+file.filename, next=url_for("img.images"))
+      return render_template('notification.html', message='Exception caught: '+str(e), next=url_for("img.images"))
   return  redirect(url_for("img.images"))
 
 @img.route("/edittitle", methods=["GET"])
