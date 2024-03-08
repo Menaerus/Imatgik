@@ -66,7 +66,9 @@ class SimpleStorage:
   # obtain title for that filename
   def GetTitle(self, userid, filename):
     userstoragename = self._UserStorageName(userid)
+    if not os.path.exists(userstoragename): return None
     userstoragetitlesdb = self._UserStorageTitlesDb(userstoragename)
+    if not os.path.exists(userstoragetitlesdb): return None
     title = None
     con = sqlite3.connect(userstoragetitlesdb)
     cur = con.cursor()
