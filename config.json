@@ -1,5 +1,5 @@
 {
   "storagetype": "SimpleStorage",
   "storageroot": "simplestorage",
-  "storagerootparent": "./"
+  "storagerootparent": "/var/tmp"
 }
