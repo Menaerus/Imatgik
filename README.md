@@ -61,7 +61,9 @@ This is a list of things I have left behind due to time limitations.
 
 A part from the previous item considerations the app cannot be put on production with Flask web server, at least it must be put behind an Nginx (or similar). 
 
-## Installation
+## Installation & Run
+
+### Installation
 
 A Python equiped system is required and then some Flask packages:
 
@@ -71,14 +73,18 @@ A Python equiped system is required and then some Flask packages:
 
 Then clone the repo or the other way around... You chose!
 
-## Run
+### Run
 From a bash terminal use:
 `FLASK_APP=. flask run`
 and access `http://127.0.0.1:5000/` from your browser
 
 Or 
+
 `FLASK_APP=. flask run --host=0.0.0.0`
 and access `http://<your-ip>:5000`
+
+### Docker
+Or you can use the Dockerfile.
 
 ## Tests
 Run tests from tests/ folder.
